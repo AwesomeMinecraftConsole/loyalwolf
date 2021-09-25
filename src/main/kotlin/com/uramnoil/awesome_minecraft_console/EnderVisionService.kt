@@ -19,8 +19,7 @@ private class EnderVisionService(
     private val mutableOperationFlow: MutableSharedFlow<Operations>,
     private val onlinePlayersFlow: MutableSharedFlow<Set<OnlinePlayer>>,
     private val scope: CoroutineScope
-) :
-    EnderVisionGrpcKt.EnderVisionCoroutineImplBase() {
+) : EnderVisionGrpcKt.EnderVisionCoroutineImplBase() {
     override fun console(requests: Flow<WeaverOuterClass.Command>): Flow<WeaverOuterClass.Line> {
         scope.launch { requests.map { Command(it) }.collect { mutableCommandFlow.emit(it) } }
         return lineFlow.map { it.build() }
