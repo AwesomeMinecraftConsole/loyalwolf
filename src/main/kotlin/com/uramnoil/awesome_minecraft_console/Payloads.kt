@@ -18,7 +18,7 @@ fun Command(command: WeaverOuterClass.Command): Command {
     return Command(command.command)
 }
 
-enum class Operations(val value: Int) {
+enum class Operations(private val value: Int) {
     Start(0),
     Unrecognized(-1), ;
 
