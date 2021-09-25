@@ -4,18 +4,15 @@ import awesome_minecraft_console.endervision.EnderVisionGrpcKt
 import awesome_minecraft_console.endervision.Endervision
 import awesome_minecraft_console.weaver.WeaverOuterClass
 import com.google.protobuf.Empty
-import io.grpc.ServerBuilder
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
-class EndervisionServer(private val port: Int, scope: CoroutineScope) {
-
-    private val server = ServerBuilder.forPort(port)
-}
-
-private class Service(
+private class EnderVisionService(
     private val lineFlow: Flow<Line>,
     private val mutableCommandFlow: MutableSharedFlow<Command>,
     private val notificationFlow: Flow<Notification>,
