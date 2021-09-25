@@ -20,7 +20,9 @@ fun Command(command: WeaverOuterClass.Command): Command {
 
 enum class Operations(val value: Int) {
     Start(0),
-    Unrecognized(-1),
+    Unrecognized(-1), ;
+
+    fun build() = WeaverOuterClass.Operation.newBuilder().setOperationValue(value).build()
 }
 
 fun Operations(operation: WeaverOuterClass.Operation): Operations {
