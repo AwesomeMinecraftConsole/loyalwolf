@@ -52,7 +52,17 @@ data class OnlinePlayer(val id: String, val name: String, val ping: Int) {
     }
 }
 
-fun Collection<OnlinePlayer>.build(): Endervision.OnlinePlayersResponse {
+fun OnlinePlayer(onlinePlayer: AcrobatOuterClass.OnlinePlayer): OnlinePlayer {
+    return onlinePlayer.run { OnlinePlayer(id, name, ping) }
+}
+
+typealias OnlinePlayers = List<OnlinePlayer>
+
+fun OnlinePlayers(onlinePlayers: AcrobatOuterClass.OnlinePlayersRequest): OnlinePlayers {
+    return onlinePlayers.onlinePlayersList.map { OnlinePlayer(it) }
+}
+
+fun OnlinePlayers.build(): Endervision.OnlinePlayersResponse {
     return Endervision.OnlinePlayersResponse.newBuilder().apply { addAllOnlinePlayers(map(OnlinePlayer::build)) }
         .build()
 }
