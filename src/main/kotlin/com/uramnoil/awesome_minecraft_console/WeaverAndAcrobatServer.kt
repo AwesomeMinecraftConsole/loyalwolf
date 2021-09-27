@@ -14,8 +14,8 @@ class WeaverAndAcrobatServer(
     mutableNotificationFlow: MutableSharedFlow<Notification>,
     operationFlow: Flow<Operations>,
     mutableOnlinePlayersFlow: MutableSharedFlow<OnlinePlayers>,
-    context: CoroutineContext) :
-    CoroutineScope by CoroutineScope(context)
+    context: CoroutineContext
+) : CoroutineScope by CoroutineScope(context)
 {
     private val server: Server = ServerBuilder
         .forPort(port.toInt())
