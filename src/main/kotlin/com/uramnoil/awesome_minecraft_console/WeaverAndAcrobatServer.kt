@@ -2,7 +2,7 @@ package com.uramnoil.awesome_minecraft_console
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.coroutines.CoroutineContext
@@ -13,10 +13,11 @@ class WeaverAndAcrobatServer(
     commandFlow: Flow<Command>,
     mutableNotificationFlow: MutableSharedFlow<Notification>,
     operationFlow: Flow<Operations>,
+    mutableOnlinePlayersFlow: MutableSharedFlow<OnlinePlayers>,
     context: CoroutineContext) :
     CoroutineScope by CoroutineScope(context)
 {
-    val server: Server = ServerBuilder
+    private val server: Server = ServerBuilder
         .forPort(port.toInt())
         .addService(
             WeaverService(
@@ -28,7 +29,30 @@ class WeaverAndAcrobatServer(
             )
         )
         .addService(
-            AcrobatServ
+            AcrobatService(
+                mutableOnlinePlayersFlow,
+                coroutineContext
+            )
         )
         .build()
+
+    fun start() {
+        server.start()
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                this@WeaverAndAcrobatServer.stop()
+            }
+        )
+    }
+
+    fun stop() {
+        server.shutdown()
+        coroutineContext.cancel()
+    }
+
+    suspend fun joinUntilShutdown() {
+        withContext(newSingleThreadContext("AwaitWeaverAndAcrobatServerTerminationThread")) {
+            server.awaitTermination()
+        }
+    }
 }
