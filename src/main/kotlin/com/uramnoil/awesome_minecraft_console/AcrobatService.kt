@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.CoroutineContext
 
-private class AcrobatService(
+class AcrobatService(
     private val mutableOnlinePlayersFlow: MutableSharedFlow<OnlinePlayers>,
     context: CoroutineContext
 ) : AcrobatGrpcKt.AcrobatCoroutineImplBase(), CoroutineScope by CoroutineScope(context) {
