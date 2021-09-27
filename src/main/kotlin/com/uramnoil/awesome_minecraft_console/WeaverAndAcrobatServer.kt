@@ -51,7 +51,7 @@ class WeaverAndAcrobatServer(
     }
 
     suspend fun joinUntilShutdown() {
-        withContext(newSingleThreadContext("AwaitWeaverAndAcrobatServerTerminationThread")) {
+        withContext(Dispatchers.Default) {
             server.awaitTermination()
         }
     }
