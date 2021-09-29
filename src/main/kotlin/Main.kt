@@ -11,9 +11,12 @@ suspend fun main(args: Array<String>) {
 
     val scope = CoroutineScope(GlobalScope.coroutineContext + CoroutineName("LoyalWolfMain"))
 
+    val enderVisionServerPort = System.getenv().getOrDefault("LOYALWOLF_ENDERVISION_PORT", "50051").toShort()
+    val weaverAndAcrobatServerPort = System.getenv().getOrDefault("LOYALWOLF_WEAVER_AND_ACROBAT_PORT", "50052").toShort()
+
     val enderVisionServer = scope.async {
         val server = EnderVisionServer(
-            50052.toShort(),
+            enderVisionServerPort,
             mutableLineSharedFlow,
             mutableCommandSharedFlow,
             mutableNotificationSharedFlow,
@@ -25,7 +28,7 @@ suspend fun main(args: Array<String>) {
     }
     val weaverAndAcrobatServer = scope.async {
         val server = WeaverAndAcrobatServer(
-            50052.toShort(),
+            weaverAndAcrobatServerPort,
             mutableLineSharedFlow,
             mutableCommandSharedFlow,
             mutableNotificationSharedFlow,
