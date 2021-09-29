@@ -9,7 +9,8 @@ suspend fun main(args: Array<String>) {
     val mutableNotificationSharedFlow = MutableSharedFlow<Notification>()
     val mutableOnlinePlayersSharedFlow = MutableSharedFlow<OnlinePlayers>()
 
-    val scope = CoroutineScope(GlobalScope.coroutineContext + CoroutineName("LoyalWolfMain"))
+    val context = Job() + CoroutineName("LoyalWolfMain")
+    val scope = CoroutineScope(context)
 
     val enderVisionServerPort = System.getenv().getOrDefault("LOYALWOLF_ENDERVISION_PORT", "50051").toUShort()
     val weaverAndAcrobatServerPort = System.getenv().getOrDefault("LOYALWOLF_WEAVER_AND_ACROBAT_PORT", "50052").toUShort()
@@ -22,7 +23,7 @@ suspend fun main(args: Array<String>) {
             mutableNotificationSharedFlow,
             mutableOperationSharedFlow,
             mutableOnlinePlayersSharedFlow,
-            scope.coroutineContext
+            context
         )
         server.start()
         server.joinUntilShutdown()
@@ -35,7 +36,7 @@ suspend fun main(args: Array<String>) {
             mutableNotificationSharedFlow,
             mutableOperationSharedFlow,
             mutableOnlinePlayersSharedFlow,
-            scope.coroutineContext
+            context
         )
         server.start()
         server.joinUntilShutdown()
