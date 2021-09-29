@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
-private class EnderVisionService(
+class EnderVisionService(
     private val lineFlow: Flow<Line>,
     private val mutableCommandFlow: MutableSharedFlow<Command>,
     private val notificationFlow: Flow<Notification>,
