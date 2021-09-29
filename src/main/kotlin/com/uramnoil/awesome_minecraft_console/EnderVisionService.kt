@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 
 class EnderVisionService(
@@ -18,15 +19,15 @@ class EnderVisionService(
     private val notificationFlow: Flow<Notification>,
     private val mutableOperationFlow: MutableSharedFlow<Operations>,
     private val onlinePlayersFlow: Flow<OnlinePlayers>,
-    private val scope: CoroutineScope
-) : EnderVisionGrpcKt.EnderVisionCoroutineImplBase() {
+    context: CoroutineContext
+) : EnderVisionGrpcKt.EnderVisionCoroutineImplBase(), CoroutineScope by CoroutineScope(context) {
     override fun console(requests: Flow<WeaverOuterClass.Command>): Flow<WeaverOuterClass.Line> {
-        scope.launch { requests.map { Command(it) }.collect { mutableCommandFlow.emit(it) } }
+        launch { requests.map { Command(it) }.collect { mutableCommandFlow.emit(it) } }
         return lineFlow.map { it.build() }
     }
 
     override fun management(requests: Flow<WeaverOuterClass.Operation>): Flow<WeaverOuterClass.Notification> {
-        scope.launch { requests.map { Operations(it) }.collect { mutableOperationFlow.emit(it) } }
+        launch { requests.map { Operations(it) }.collect { mutableOperationFlow.emit(it) } }
         return notificationFlow.map { it.build() }
     }
 
