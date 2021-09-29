@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.coroutines.CoroutineContext
 
 class WeaverAndAcrobatServer(
-    port: Short,
+    port: UShort,
     mutableLineFlow: MutableSharedFlow<Line>,
     commandFlow: Flow<Command>,
     mutableNotificationFlow: MutableSharedFlow<Notification>,

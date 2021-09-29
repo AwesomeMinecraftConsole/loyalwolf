@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlin.coroutines.CoroutineContext
 
 class EnderVisionServer(
-    port: Short,
+    port: UShort,
     lineFlow: Flow<Line>,
     mutableCommandFlow: MutableSharedFlow<Command>,
     notificationFlow: Flow<Notification>,
