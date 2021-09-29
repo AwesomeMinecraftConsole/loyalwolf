@@ -2,12 +2,9 @@ package com.uramnoil.awesome_minecraft_console
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class EnderVisionServer(
@@ -18,7 +15,7 @@ class EnderVisionServer(
     mutableOperationFlow: MutableSharedFlow<Operations>,
     onlinePlayersFlow: Flow<OnlinePlayers>,
     context: CoroutineContext
-) : CoroutineScope by CoroutineScope(context) {
+) : CoroutineScope by CoroutineScope(context + CoroutineName("LoyalWolfEnderVisionServer")) {
     private val server: Server = ServerBuilder
         .forPort(port.toInt())
         .addService(
