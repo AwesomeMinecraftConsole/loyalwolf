@@ -22,7 +22,7 @@ class WeaverAndAcrobatServer(
         .forPort(port.toInt())
         .permitKeepAliveWithoutCalls(true)
         .keepAliveTime(1000L, TimeUnit.MILLISECONDS)
-        .keepAliveTimeout(200000, TimeUnit.MILLISECONDS)
+        .keepAliveTimeout(20_000, TimeUnit.MILLISECONDS)
         .addService(
             WeaverService(
                 mutableLineFlow,
