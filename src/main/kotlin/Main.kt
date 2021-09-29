@@ -25,6 +25,7 @@ suspend fun main(args: Array<String>) {
             scope.coroutineContext
         )
         server.start()
+        server.joinUntilShutdown()
     }
     val weaverAndAcrobatServer = scope.async {
         val server = WeaverAndAcrobatServer(
@@ -37,6 +38,7 @@ suspend fun main(args: Array<String>) {
             scope.coroutineContext
         )
         server.start()
+        server.joinUntilShutdown()
     }
 
     val servers = listOf(enderVisionServer, weaverAndAcrobatServer)
