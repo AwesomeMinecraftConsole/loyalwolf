@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * KeepAliveTime: 1,000ms
+ * KeepAliveTimeout: 20,000ms
+ */
 class EnderVisionServer(
     port: UShort,
     lineFlow: Flow<Line>,
@@ -20,8 +24,8 @@ class EnderVisionServer(
     private val server: Server = NettyServerBuilder
         .forPort(port.toInt())
         .permitKeepAliveWithoutCalls(true)
-        .keepAliveTime(1000L, TimeUnit.MILLISECONDS)
-        .keepAliveTimeout(200000, TimeUnit.MILLISECONDS)
+        .keepAliveTime(1_000, TimeUnit.MILLISECONDS)
+        .keepAliveTimeout(20_000, TimeUnit.MILLISECONDS)
         .addService(
             EnderVisionService(
                 lineFlow,
