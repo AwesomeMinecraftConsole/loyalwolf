@@ -23,7 +23,6 @@ class EnderVisionServer(
 ) : CoroutineScope by CoroutineScope(context + CoroutineName("LoyalWolfEnderVisionServer")) {
     private val server: Server = NettyServerBuilder
         .forPort(port.toInt())
-        .permitKeepAliveWithoutCalls(true)
         .keepAliveTime(1_000, TimeUnit.MILLISECONDS)
         .keepAliveTimeout(20_000, TimeUnit.MILLISECONDS)
         .addService(
@@ -36,6 +35,8 @@ class EnderVisionServer(
                 coroutineContext
             )
         )
+        .permitKeepAliveTime(1_000L, TimeUnit.MILLISECONDS)
+        .permitKeepAliveWithoutCalls(true)
         .build()
 
     fun start() {
