@@ -1,8 +1,7 @@
 package com.uramnoil.awesome_minecraft_console
 
 import awesome_minecraft_console.endervision.EnderVisionGrpcKt
-import awesome_minecraft_console.endervision.Endervision
-import awesome_minecraft_console.weaver.WeaverOuterClass
+import awesome_minecraft_console.endervision.Loyalwolf
 import com.google.protobuf.Empty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -21,17 +20,17 @@ class EnderVisionService(
     private val onlinePlayersFlow: Flow<OnlinePlayers>,
     context: CoroutineContext
 ) : EnderVisionGrpcKt.EnderVisionCoroutineImplBase(), CoroutineScope by CoroutineScope(context) {
-    override fun console(requests: Flow<WeaverOuterClass.Command>): Flow<WeaverOuterClass.Line> {
+    override fun console(requests: Flow<Loyalwolf.Command>): Flow<Loyalwolf.Line> {
         launch { requests.map { Command(it) }.collect { mutableCommandFlow.emit(it) } }
         return lineFlow.map { it.build() }
     }
 
-    override fun management(requests: Flow<WeaverOuterClass.Operation>): Flow<WeaverOuterClass.Notification> {
+    override fun management(requests: Flow<Loyalwolf.Operation>): Flow<Loyalwolf.Notification> {
         launch { requests.map { Operations(it) }.collect { mutableOperationFlow.emit(it) } }
         return notificationFlow.map { it.build() }
     }
 
-    override fun onlinePlayers(request: Empty): Flow<Endervision.OnlinePlayersResponse> {
+    override fun onlinePlayers(request: Empty): Flow<Loyalwolf.OnlinePlayersResponse> {
         return onlinePlayersFlow.map { it.build() }
     }
 }

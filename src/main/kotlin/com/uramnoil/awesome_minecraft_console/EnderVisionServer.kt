@@ -20,7 +20,7 @@ class EnderVisionServer(
     mutableOperationFlow: MutableSharedFlow<Operations>,
     onlinePlayersFlow: Flow<OnlinePlayers>,
     context: CoroutineContext
-) : CoroutineScope by CoroutineScope(context + CoroutineName("LoyalWolfEnderVisionServer")) {
+) : CoroutineScope by CoroutineScope(context + Job(context.job) + CoroutineName("LoyalWolfEnderVisionServer")) {
     private val server: Server = NettyServerBuilder
         .forPort(port.toInt())
         .keepAliveTime(1_000, TimeUnit.MILLISECONDS)
@@ -43,14 +43,14 @@ class EnderVisionServer(
         server.start()
         Runtime.getRuntime().addShutdownHook(
             Thread {
-                this@EnderVisionServer.stop()
+                this@EnderVisionServer.shutdown()
             }
         )
     }
 
-    fun stop() {
+    fun shutdown() {
         server.shutdown()
-        coroutineContext.cancel()
+        coroutineContext.cancelChildren()
     }
 
     suspend fun joinUntilShutdown() {
