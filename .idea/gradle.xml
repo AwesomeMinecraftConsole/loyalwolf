@@ -8,7 +8,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/opt/homebrew/Cellar/gradle/7.2/libexec" />
+        <option name="gradleHome" value="$USER_HOME$/.sdkman/candidates/gradle/7.2" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
